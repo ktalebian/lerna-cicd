@@ -1,0 +1,34 @@
+#!/bin/bash
+
+BIN_DIR="$( cd "$( dirname "${BASH_SOURCE[0]}" )" >/dev/null 2>&1 && pwd )"
+source $BIN_DIR/lerna-it
+
+# Cleanup
+run_script $LERNA clean -y
+run_script $LERNA run clean
+run_script rm -rf node_modules
+
+# Install
+run_script npm install --no-package-lock
+
+# Lint and test
+run_script npm run lint
+run_script npm run test
+
+# Build
+run_script npm run build
+
+# Remove package-lock file
+if [ "$NO_PACKAGE_LOCK" = "1" ] ; then
+  find . -type f -regex "\.\/packages\/[a-zA-z-]*\/package-lock\.json" -delete -o -regex "\.\/package-lock.json" -delete
+fi
+
+# Publish package
+echo -e "\n------------------------------------"
+echo "-- Publishing as ${tag} release --"
+echo -e "------------------------------------\n"
+if [ "$1" == "public" ] ; then
+  run_script $LERNA publish from-git --yes
+else
+  run_script $LERNA publish from-git --preid ${tag} --dist-tag ${tag} --yes
+fi

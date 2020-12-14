@@ -1,0 +1,49 @@
+#!/bin/bash
+
+BIN_DIR="$( cd "$( dirname "${BASH_SOURCE[0]}" )" >/dev/null 2>&1 && pwd )"
+source $BIN_DIR/lerna-it
+
+# Release tag
+tag="alpha"
+if [ "$1" == "public" ] ; then
+  tag="public"
+fi
+if [ "$1" == "beta" ] ; then
+  tag="beta"
+fi
+
+# Version bump
+bump="patch"
+if [ "$2" == "minor" ] ; then
+  bump="minor"
+fi
+if [ "$2" == "major" ] ; then
+  bump="major"
+fi
+if [ "$1" != "public" ] ; then
+  bump="pre${bump}"
+fi
+
+# Verify tag and branch
+if [ "$CURRENT_BRANCH" == "main" ] && [ "$1" != "public" ] ; then
+  echo "main branch can only have public release"
+  exit 1
+fi
+if [ "$1" == "public" ] && [ "$CURRENT_BRANCH" != "main" ] ; then
+  echo "Public release must be done on the main branch"
+  exit 1
+fi
+if [ "$1" == "alpha" ] && [[ "$CURRENT_BRANCH" =~ ^v.-beta$ ]] ; then
+  echo "Alpha release cannot be on a v*-beta branch"
+  exit 1
+fi
+
+# Release tag
+echo -e "\n------------------------------------"
+echo "-- Releasing as ${tag} release --"
+echo -e "------------------------------------\n"
+if [ "$1" == "public" ] ; then
+  run_script $LERNA version $bump --yes
+else
+  run_script $LERNA version $bump --preid ${tag} --dist-tag ${tag} --yes
+fi

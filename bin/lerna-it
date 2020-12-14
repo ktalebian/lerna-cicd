@@ -1,0 +1,14 @@
+#!/bin/bash
+
+BIN_DIR="$( cd "$( dirname "${BASH_SOURCE[0]}" )" >/dev/null 2>&1 && pwd )"
+LERNA="$BIN_DIR/lerna"
+CURRENT_BRANCH=$(git branch --show-current)
+
+# Runs script but quits if script exists with non-zero exit code
+function run_script() {
+  eval "$@"
+  if [ $? -eq 1 ] ; then
+    echo "Script '$@' failed - exiting"
+    exit $?
+  fi
+}
