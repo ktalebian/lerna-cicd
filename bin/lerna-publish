@@ -18,11 +18,6 @@ run_script npm run test
 # Build
 run_script npm run build
 
-# Remove package-lock file
-if [ "$NO_PACKAGE_LOCK" = "1" ] ; then
-  find . -type f -regex "\.\/packages\/[a-zA-z-]*\/package-lock\.json" -delete -o -regex "\.\/package-lock.json" -delete
-fi
-
 # Publish package
 echo -e "\n------------------------------------"
 echo "-- Publishing as ${tag} release --"
