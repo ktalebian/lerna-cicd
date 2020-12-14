@@ -1,25 +1,24 @@
 {
-    "name": "@k88/lerna-it",
-    "version": "1.0.0",
-    "description": "A simple script for publishing lerna packages",
-    "bin": {
-      "lerna-it": "./bin/lerna-it",
-      "lerna-publish": "./bin/lerna-publish",
-      "lerna-release": "./bin/lerna-release"
-    },
-    "files": [
-      "bin",
-      "package.json"
-    ],
-    "repository": {
-      "type": "git",
-      "url": "git+https://github.com/ktalebian/lerna-it.git"
-    },
-    "author": "",
-    "license": "ISC",
-    "bugs": {
-      "url": "https://github.com/ktalebian/lerna-it/issues"
-    },
-    "homepage": "https://github.com/ktalebian/lerna-it#readme"
-  }
-  
+  "name": "@k88/lerna-it",
+  "version": "1.0.1",
+  "description": "A simple script for publishing lerna packages",
+  "bin": {
+    "lerna-it": "./bin/lerna-it",
+    "lerna-publish": "./bin/lerna-publish",
+    "lerna-release": "./bin/lerna-release"
+  },
+  "files": [
+    "bin",
+    "package.json"
+  ],
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/ktalebian/lerna-it.git"
+  },
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/ktalebian/lerna-it/issues"
+  },
+  "homepage": "https://github.com/ktalebian/lerna-it#readme"
+}
