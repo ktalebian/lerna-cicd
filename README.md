@@ -1,16 +1,16 @@
-# lerna-it
+# lerna-travis
 
-A simple script for publishing Lerna monorepo projects.
+A script for integrating lerna projects with Travis CI/CD.
 
 ## Installation
 Install using
 
 ```bash
 # If using npm
-npm install -D @k88/lerna-it
+npm install -D @k88/lerna-travis
 
 # If using yarn
-yarn add -D @k88/lerna-it
+yarn add -D @k88/lerna-travis
 ```
 
 ## Usage
@@ -20,10 +20,10 @@ Add the following scripts to your package.json's `scripts`:
 ```json
 {
   "scripts": {
-    "release:alpha": "lerna-release alpha",
-    "release:beta": "lerna-release beta",
-    "release:public": "lerna-release public",
-    "publish": "lerna-publish"
+    "release:alpha": "lerna-travis-release alpha",
+    "release:beta": "lerna-travis-release beta",
+    "release:public": "lerna-travis-release public",
+    "publish": "lerna-travis-publish"
   }
 }
 ```
@@ -70,13 +70,15 @@ npm run release:beta
 npm run release:public minor
 ```
 
-## Travis Example
+## Setting up Travis
 
-Here is an example of your `.travis.yml` file:
+Generate an NPM token from your NPM profile and add it to Travis as `NPM_TOKEN`. Here is an example of your `.travis.yml` file:
 
 ```yaml
 before_deploy:
-  - echo "//registry.npmjs.org/:_authToken=\${NPM_TOKEN}" >> $HOME/.npmrc 2> /dev/null
+  - npm config set access public
+  - npm config set registry https://registry.npmjs.org
+  - npm set //registry.npmjs.org/:_authToken "$NPM_TOKEN"
 
 deploy:
   provider: script

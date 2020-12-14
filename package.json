@@ -1,11 +1,11 @@
 {
-  "name": "@k88/lerna-it",
-  "version": "1.0.1",
-  "description": "A simple script for publishing lerna packages",
+  "name": "@k88/lerna-travis",
+  "version": "1.0.0",
+  "description": "A script for integrating lerna projects with Travis CI/CD",
   "bin": {
-    "lerna-it": "./bin/lerna-it",
-    "lerna-publish": "./bin/lerna-publish",
-    "lerna-release": "./bin/lerna-release"
+    "lerna-travis": "./bin/lerna-travis",
+    "lerna-travis-publish": "./bin/lerna-travis-publish",
+    "lerna-travis-release": "./bin/lerna-travis-release"
   },
   "files": [
     "bin",
@@ -13,12 +13,12 @@
   ],
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/ktalebian/lerna-it.git"
+    "url": "git+https://github.com/ktalebian/lerna-travis.git"
   },
   "author": "",
   "license": "ISC",
   "bugs": {
-    "url": "https://github.com/ktalebian/lerna-it/issues"
+    "url": "https://github.com/ktalebian/lerna-travis/issues"
   },
-  "homepage": "https://github.com/ktalebian/lerna-it#readme"
+  "homepage": "https://github.com/ktalebian/lerna-travis#readme"
 }

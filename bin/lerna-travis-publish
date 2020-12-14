@@ -1,0 +1,44 @@
+#!/bin/bash
+
+BIN_DIR="$( cd "$( dirname "${BASH_SOURCE[0]}" )" >/dev/null 2>&1 && pwd )"
+source $BIN_DIR/lerna-travis
+
+dist=""
+tag=$TRAVIS_TAG
+
+if [ -z "$tag" ] ; then
+  echo "No release tag provided"
+  exit 1
+fi
+
+isPublic=`python -c "import re; pattern = re.compile('^v\d+\.\d+\.\d+$'); print(pattern.match('$tag') != None);"`
+isBeta=`python -c "import re; pattern = re.compile('^v\d+\.\d+\.\d+-beta.\d+$'); print(pattern.match('$tag') != None);"`
+isAlpha=`python -c "import re; pattern = re.compile('^v\d+\.\d+\.\d+-alpha.\d+$'); print(pattern.match('$tag') != None);"`
+
+if [ "$isPublic" == "True" ] ; then
+  dist="public"
+fi
+
+if [ "$isBeta" == "True" ] ; then
+  dist="beta"
+fi
+
+if [ "$isAlpha" == "True" ] ; then
+  dist="alpha"
+fi
+
+if [ "$dist" = "" ] ; then
+  echo "Unknown release tag $tag provided"
+  exit 0
+fi
+
+# Publish
+echo -e "\n----------------------------------"
+echo "-- Publishing ${dist} release --"
+echo -e "----------------------------------\n"
+if [ "$dist" == "public" ] ; then
+  run_script $LERNA publish from-git --yes
+else
+  echo "$dist publish"
+  run_script $LERNA from-git --preid ${dist} --dist-tag ${dist} --yes
+fi
