@@ -3,6 +3,12 @@
 BIN_DIR="$( cd "$( dirname "${BASH_SOURCE[0]}" )" >/dev/null 2>&1 && pwd )"
 source $BIN_DIR/lerna-travis
 
+targetVersion=$(npm info node version | cut -d. -f-1);
+if [ "$targetVersion" != "10" ] ; then
+  echo "Skipping publish as $targetVersion is not v10"
+  exit 0
+fi
+
 dist=""
 tag=$TRAVIS_TAG
 

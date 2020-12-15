@@ -108,6 +108,7 @@ deploy:
     tags: true
     branch: main
     repo: YOUR-ORG/YOUR-REPO
+    node_js: '10'
 
 branches:
   - main

@@ -33,6 +33,10 @@ if [ "$1" == "public" ] && [ "$CURRENT_BRANCH" != "main" ] ; then
   echo "Public release must be done on the main branch"
   exit 1
 fi
+if [ "$1" == "beta" ] && [[ ! "$CURRENT_BRANCH" =~ ^v.-beta$ ]] ; then
+  echo "Beta release must be done on the v*-beta branch"
+  exit 1
+fi
 if [ "$1" == "alpha" ] && [[ "$CURRENT_BRANCH" =~ ^v.-beta$ ]] ; then
   echo "Alpha release cannot be on a v*-beta branch"
   exit 1
@@ -45,5 +49,5 @@ echo -e "------------------------------------\n"
 if [ "$1" == "public" ] ; then
   run_script $LERNA version $bump --yes
 else
-  run_script $LERNA version $bump --preid ${tag} --dist-tag ${tag} --yes
+  run_script $LERNA version $bump --preid ${tag} --yes
 fi
