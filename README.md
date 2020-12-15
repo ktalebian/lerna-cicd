@@ -75,6 +75,26 @@ npm run release:public minor
 Generate an NPM token from your NPM profile and add it to Travis as `NPM_TOKEN`. Here is an example of your `.travis.yml` file:
 
 ```yaml
+language: node_js
+
+node_js:
+  - '14'
+  - '12'
+  - '10'
+  - 'node'
+  - 'lts/*'
+
+before_script:
+  - npm install --no-package-lock
+
+script:
+  - npm run lint
+  - run run test
+  - npm run build
+
+after_success:
+  - codecov --token="$CODECOV_TOKEN"
+
 before_deploy:
   - npm config set access public
   - npm config set registry https://registry.npmjs.org
@@ -88,6 +108,7 @@ deploy:
     tags: true
     branch: main
     repo: YOUR-ORG/YOUR-REPO
+
 branches:
   - main
   - /^v\d+\.\d+\.\d+.*$/
