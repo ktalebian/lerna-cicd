@@ -40,5 +40,5 @@ if [ "$dist" == "public" ] ; then
   run_script $LERNA publish from-git --yes
 else
   echo "$dist publish"
-  run_script $LERNA from-git --preid ${dist} --dist-tag ${dist} --yes
+  run_script $LERNA publish from-git --dist-tag ${dist} --yes
 fi
