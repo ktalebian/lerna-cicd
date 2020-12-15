@@ -1,6 +1,6 @@
 {
   "name": "@k88/lerna-travis",
-  "version": "1.0.1",
+  "version": "1.1.0",
   "description": "A script for integrating lerna projects with Travis CI/CD",
   "bin": {
     "lerna-travis": "./bin/lerna-travis",
