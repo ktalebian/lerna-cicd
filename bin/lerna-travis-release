@@ -48,7 +48,7 @@ echo -e "\n------------------------------------"
 echo "-- Releasing as ${tag} release --"
 echo -e "------------------------------------\n"
 if [ "$1" == "public" ] ; then
-  run_script $LERNA version $bump --yes --no-push
+  run_script $LERNA version $bump --no-push
 else
-  run_script $LERNA version $bump --preid ${tag} --yes --no-push
+  run_script $LERNA version $bump --preid ${tag} --no-push
 fi
