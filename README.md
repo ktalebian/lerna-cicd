@@ -28,7 +28,21 @@ Add the following scripts to your package.json's `scripts`:
 }
 ```
 
-It is recommended to use this script with [release-it](https://github.com/release-it/release-it) (see below for more details).
+It is recommended to use this script with [release-it](https://github.com/release-it/release-it) (see below for more details). If so, use the following `scripts`:
+
+
+```json
+{
+  "scripts": {
+    "release:alpha": "npm run release alpha $1",
+    "release:beta": "npm run release beta $1",
+    "release:public": "npm run release public $1",
+    "release": "lerna-travis-release $1 $2",
+    "postrelease": "dotenv release-it -- $(git describe --tags --abbrev=0 | cut -c 2-) --ci",
+    "publish": "lerna-travis-publish"
+  }
+}
+```
 
 ## Details
 
@@ -78,7 +92,29 @@ This repo also provides some basic templating that you can use with [release-it]
 
 1) Install the following: `npm install auto-changelog dotenv-cli release-it --save-dev`
 2) Create a `.env` file and add `GITHUB_AUTH`. You can generate a token by on [GitHub](https://github.com/settings/tokens/new?scopes=repo&description=release-it)
-3) Add a `postrelease` script `dotenv release-it -- $(git describe --tags --abbrev=0 | cut -c 2-) --ci --template `
+3) Add a `postrelease` script `dotenv release-it -- $(git describe --tags --abbrev=0 | cut -c 2-) --ci`
+4) Create a `.release-it.json` and add the following:
+
+```json
+{
+  "git": {
+      "tag": false,
+      "requireCleanWorkingDir": false,
+      "changelog": "npx auto-changelog --stdout --commit-limit false -u --handlebars-setup node_modules/@k88/lerna-travis/templates/releaseItHandlerbar.js --template https://raw.githubusercontent.com/ktalebian/lerna-travis/main/templates/changelog.hbs"
+  },
+  "github": {
+      "release": true,
+      "tokenRef": "GITHUB_AUTH"
+  },
+  "hooks": {
+      "after:bump": "auto-changelog -v $(git describe --tags --abbrev=0 | cut -c 2-)"
+  },
+  "npm": {
+      "publish": false,
+      "ignoreVersion": true
+  }
+}
+```
 
 ## Setting up Travis
 
