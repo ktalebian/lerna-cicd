@@ -20,13 +20,15 @@ Add the following scripts to your package.json's `scripts`:
 ```json
 {
   "scripts": {
-    "release:alpha": "lerna-travis-release alpha",
-    "release:beta": "lerna-travis-release beta",
-    "release:public": "lerna-travis-release public",
+    "release:alpha": "lerna-travis-release alpha && git push --tags",
+    "release:beta": "lerna-travis-release beta && git push --tags",
+    "release:public": "lerna-travis-release public && git push --tags",
     "publish": "lerna-travis-publish"
   }
 }
 ```
+
+It is recommended to use this script with [release-it](https://github.com/release-it/release-it) (see below for more details).
 
 ## Details
 
@@ -69,6 +71,14 @@ npm run release:beta
 # Publishes a minor public
 npm run release:public minor
 ```
+
+## Release It
+
+This repo also provides some basic templating that you can use with [release-it](https://github.com/release-it/release-it).
+
+1) Install the following: `npm install auto-changelog dotenv-cli release-it --save-dev`
+2) Create a `.env` file and add `GITHUB_AUTH`. You can generate a token by on [GitHub](https://github.com/settings/tokens/new?scopes=repo&description=release-it)
+3) Add a `postrelease` script `dotenv release-it -- $(git describe --tags --abbrev=0 | cut -c 2-) --ci --template `
 
 ## Setting up Travis
 
